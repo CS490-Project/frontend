@@ -87,6 +87,7 @@ body {
 #create-exam .question-table .question{
 	margin: 1rem 0;
 }
+<<<<<<< HEAD
 
 /*section: add question */
 #add_question_form {
@@ -98,4 +99,6 @@ body {
 #take_exam #question_window .exam-question{
 	display: none;
 }
+=======
+>>>>>>> 627cf4eec17a545c1d3786526bc9912696f8e610
 </style>

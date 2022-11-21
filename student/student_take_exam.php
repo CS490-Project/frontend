@@ -16,6 +16,7 @@ $questions=$exam["questions"];
 
 ?>
 
+<<<<<<< HEAD
 
 <section id="take_exam">
     <div id="question_select">
@@ -54,5 +55,18 @@ function change_question(id){
 change_question(current_question)
 
 </script>
+=======
+       
+<form action="student_save_exam.php" method="post">
+    <?php foreach($questions as $question): ?>
+        <p><?=$question['description']?> <br> <?=$question['value']?> pts </p> 
+        <textarea id="answer" name="answer[]" rows="4" cols="50"></textarea><br><br>
+        <input type="hidden" name="question_id[]" value='<?=$question["question_id"]?>'>
+    <?php endforeach; ?>
+    <input type="hidden" name="exam_id" value='<?= $_GET['id']?>'>
+    <input type="submit" value="Submit Exam" name="SaveExam"></br>
+</form>
+
+>>>>>>> 627cf4eec17a545c1d3786526bc9912696f8e610
 
 <?php require(__DIR__ . "/../partials/footer.php"); ?>
