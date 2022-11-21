@@ -16,12 +16,11 @@ $questions=$exam["questions"];
 
 ?>
 
-<<<<<<< HEAD
 
 <section id="take_exam">
     <div id="question_select">
         <?php for($i = 0; $i < count($questions); $i++): ?>
-            <button onClick="change_question('exam_question_<?= $questions[$i]["question_id"] ?>')"> Question <?= $i+1 ?> </button>
+            <button onClick="change_question('exam_question_<?= $questions[$i]["question_id"] ?>', <? echo $i+1 ?>)"> Question <?= $i+1 ?> </button>
         <?php endfor; ?>
     </div>
     <div id="question_window">
@@ -34,6 +33,7 @@ $questions=$exam["questions"];
                 </div>
             <?php endforeach; ?>
             <input type="hidden" name="exam_id" value='<?= $_GET['id']?>'>
+            <div> Question <span id="current_position"></span> of <? echo count($questions) ?> </div>    
             <input type="submit" value="Submit Exam" name="SaveExam"></br>
         </form>
     </div>
@@ -46,27 +46,15 @@ const exam_questions = document.querySelectorAll(".exam-question")
 
 var current_question  = exam_questions[0].id
 
-function change_question(id){
+function change_question(id, position){
     document.getElementById(current_question).style.display = "none"
     document.getElementById(id).style.display = "block"
     current_question = id
+    document.getElementById("current_position").textContent = position
 }
 
-change_question(current_question)
+change_question(current_question, 1)
 
 </script>
-=======
-       
-<form action="student_save_exam.php" method="post">
-    <?php foreach($questions as $question): ?>
-        <p><?=$question['description']?> <br> <?=$question['value']?> pts </p> 
-        <textarea id="answer" name="answer[]" rows="4" cols="50"></textarea><br><br>
-        <input type="hidden" name="question_id[]" value='<?=$question["question_id"]?>'>
-    <?php endforeach; ?>
-    <input type="hidden" name="exam_id" value='<?= $_GET['id']?>'>
-    <input type="submit" value="Submit Exam" name="SaveExam"></br>
-</form>
-
->>>>>>> 627cf4eec17a545c1d3786526bc9912696f8e610
 
 <?php require(__DIR__ . "/../partials/footer.php"); ?>
