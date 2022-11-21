@@ -87,4 +87,15 @@ body {
 #create-exam .question-table .question{
 	margin: 1rem 0;
 }
+
+/*section: add question */
+#add_question_form {
+	display: flex;
+}
+
+/*section: take exam */
+
+#take_exam #question_window .exam-question{
+	display: none;
+}
 </style>

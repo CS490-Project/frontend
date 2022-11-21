@@ -33,11 +33,6 @@ function make_request($endpoint, $params){
         $defaults[CURLOPT_POSTFIELDS] = json_encode($params);
         $defaults[CURLOPT_HTTPHEADER] = array('Content-Type:application/json');
     } 
-    //Testing autograde for now, later remove
-    if($endpoint == "mid_autograde"){
-        $defaults[CURLOPT_URL] = 'https://afsaccess4.njit.edu/~gc348/CS490/middleware/mid_autograde.php';
-    }
-
     $ch = curl_init();
     curl_setopt_array($ch, $defaults);
 
@@ -85,5 +80,5 @@ function getURL($path) {
     if (substr($path, 0, 1) == "/") {
         return $path;
     }
-    return $_SERVER["CONTEXT_PREFIX"] . "/CS490/frontend/$path";
+    return $_SERVER["CONTEXT_PREFIX"] . "/CS490/$path";
 }
