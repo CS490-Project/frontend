@@ -16,17 +16,23 @@
 
 <main>
     <div class="exam-container">
-          <h1>Exams To Be Taken</h1>
-          <table class="exam-table">
+          <h1>Exams To Be Taken</h1><br>
+          <table style="width:50%">
+              <thead>
+                  <tr>
+                      <th>Exam Name</th>
+                      <th>Take Exam</th>
+                  </tr>
+              </thead>
+              <tbody>
               <?php foreach($exams as $exam): ?>
                 <tr class="exam" id=<?="exam-".$exam['id']; ?> >
-                    <td>  <?= $exam['title']; ?> </td> 
-                    <td> 
-                    <a href="student_take_exam.php?id=<?=$exam['id'];?>"> Take Exam </a>
-                    <td>
+                    <td>  <b><?= $exam['title']; ?></b> </td> 
+                    <td> <a class="btn" href="student_take_exam.php?id=<?=$exam['id'];?>"> Take </a></td>
                 </tr>
                 
               <?php endforeach; ?>
+              </tbody>
               
           </table>
         </div>

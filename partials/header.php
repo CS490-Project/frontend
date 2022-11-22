@@ -16,6 +16,7 @@
     
 <header>
 <?php require_once("nav.php");; ?>
+
 </header>
 
-<main>
+<main class="container">

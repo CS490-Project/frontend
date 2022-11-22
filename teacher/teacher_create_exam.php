@@ -45,39 +45,35 @@
 ?>
 
 
-<section id="create-exam">
-    <div class="exam-form">
-        <form method="post">
-            <input type="text" name="title" placeholder="Exam Title" required>
-            <input type="number" name="total" placeholder="Total Points" min="0" step="0.01">
-<<<<<<< HEAD
-            <table border="1">
-              <thead>
-                <tr>
-                  <th>Description</th>
-                  <th>Category</th>
-                  <th>Difficulty</th>
-                  <th>Value</th>
-                  <th>Remove</th>
-                </tr>
-              </thead>
-              <tbody id="exam_questions_body"></tbody>
-            </table>
-=======
-            <table id="exam_questions"></table>
->>>>>>> 627cf4eec17a545c1d3786526bc9912696f8e610
-            <br/>
-            <input type="submit" name="create_exam" value="Create Exam">
-        </form>
-    </div>
-          
+<section id="create_exam">
+
+  <form method="post" id="exam_form">
+      <div class="input-group">
+        <input type="text" class="form-input" name="title" placeholder="Exam Title" required>
+        <input type="number" class="form-input" name="total" placeholder="Total Points" min="0" step="0.01">
+      </div>
+      <table class="question-table" border="1">
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Difficulty</th>
+            <th>Value</th>
+            <th>Remove</th>
+          </tr>
+        </thead>
+        <tbody id="exam_questions_body"></tbody>
+      </table>
+      <br/>
+      <input type="submit" class="btn btn-block" name="create_exam" value="Create Exam">
+  </form>
+    
   <div class="question-container">
-      <h1>Question Bank</h1>
-<<<<<<< HEAD
-      <div>
-        <input type="text" value="" class="filter" onkeyup="render_table()" id="f_description" placeholder="Keyword"/>
+      <h1>Question Bank</h1><br>
+      <div class="input-group">
+        <input type="text" value="" class="filter form-input" onkeyup="render_table()" id="f_description" placeholder="Keyword"/>
         
-        <select id="f_category" class="filter" onchange="render_table()">
+        <select id="f_category" class="filter form-input" onchange="render_table()">
           <option value="">All Topics</option>
           <option value="variables">Variables</option>
           <option value="conditionals">Conditionals</option>
@@ -86,7 +82,7 @@
           <option value="lists">lists</option>
         </select>
 
-        <select id="f_difficulty" class="filter" onchange="render_table()">
+        <select id="f_difficulty" class="filter form-input" onchange="render_table()">
           <option value="">All Difficulties</option>
           <option value="easy">Easy</option>
           <option value="medium">Medium</option>
@@ -95,10 +91,7 @@
         </select>
         
       </div>
-      <table border="1">
-=======
-      <table class="question-table" border="1">
->>>>>>> 627cf4eec17a545c1d3786526bc9912696f8e610
+      <table border="1" class="question-table">
           <thead>
             <tr>
               <th>Description</th>
@@ -107,24 +100,7 @@
               <th>Add</th>
             </tr>
           </thead>
-<<<<<<< HEAD
           <tbody id="question_table_body"></tbody>
-=======
-          <tbody>
-            <?php foreach($questions as $question): ?>
-              <tr class="question" id=<?="question-".$question['id']; ?> >
-                  <td> <?= $question['description']; ?> </td>
-                  <td> <?= $question['category']; ?> </td>
-                  <td> <?= $question['difficulty']; ?> </td>
-                  <td> 
-                    <button onClick="add_question(<?=$question['id']?>,'<?=$question['description']?>')" > 
-                        Add Question 
-                    </button> 
-                  <td>
-              </tr>
-            <?php endforeach; ?>
-          </tbody>
->>>>>>> 627cf4eec17a545c1d3786526bc9912696f8e610
       </table>
     </div>
       
@@ -132,9 +108,8 @@
 
 <script type="text/javascript">
 
-<<<<<<< HEAD
   const exam_questions = document.getElementById('exam_questions_body');
-  const question_table = document.getElementById('question_table_body');
+  const question_table_body = document.getElementById('question_table_body');
   const questions = <?=json_encode($questions) ?>
 
   var selected_questions = []
@@ -162,16 +137,17 @@
                   <td> ${q['category']} </td>
                   <td> ${q['difficulty']} </td>
                   <td> 
-                    <button onClick="add_question(${q['id']}, '${q['description']}', '${q['category']}', '${q['difficulty']}')">
-                     Add Question </button> 
-                  <td>
+                    <button class="btn btn-small"
+                    onClick="add_question(${q['id']}, '${q['description']}', '${q['category']}', '${q['difficulty']}')">
+                     Add </button> 
+                  </td>
               </tr>`
 
       output+=html
 
     })
 
-    question_table.innerHTML = output
+    question_table_body.innerHTML = output
   }
   
   function add_question(id, description, category, difficulty){
@@ -204,9 +180,9 @@
         <td>${q["description"]}</td>
         <td>${q["category"]}</td>
         <td>${q["difficulty"]}</td>
-        <td><input type="number" name="value[]" placeholder="Enter Value" min="0" step="0.01"></td>
-        <td><button onclick="remove_question(${q['id']})" type="button"> Remove </button> </td>
-        <td><input type="hidden" name="question_id[]" value="${q['id']}"></td>
+        <td><input type="number" class="form-input" name="value[]" placeholder="Enter Value" min="0" step="0.01"></td>
+        <td><button class="btn btn-small" onclick="remove_question(${q['id']})" type="button"> Remove </button> </td>
+        <input type="hidden" name="question_id[]" value="${q['id']}">
       </tr>`
 
       output+=html
@@ -218,24 +194,6 @@
   }
 
   
-=======
-  const exam_questions = document.getElementById('exam_questions');
-  
-  function add_question(id, description){
-      const exam_question = `<tr>
-            <td>${description}</td>
-            <td><input type="number" name="value[]" placeholder="Enter Value" min="0" step="0.01"></td>
-            <td><button > X </button> </td>
-            <td><input type="hidden" name="question_id[]" value=${id}></td>
-        </tr>`
-        
-        exam_questions.innerHTML += exam_question
-        
-        const question = document.getElementById(`question-${id}`)
-        question.children[3].children[0].disabled = true;
-  } 
-
->>>>>>> 627cf4eec17a545c1d3786526bc9912696f8e610
 </script>
  
 <?php require(__DIR__ . "/../partials/footer.php"); ?>

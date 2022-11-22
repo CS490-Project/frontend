@@ -1,5 +1,4 @@
 <?php require(__DIR__ . "/../partials/header.php"); ?>
-<<<<<<< HEAD
 <?php
 
 $questions = [];
@@ -8,15 +7,10 @@ $req = make_request("mid_receive_questions", ["teacher_id" => get_user_id()]);
 if($req["status"] == 200){
 $questions = $req["response"];
 }
-=======
-
-<?php
->>>>>>> 627cf4eec17a545c1d3786526bc9912696f8e610
 
 //check if button is set
 if (isset($_POST["CreateQuestionButton"])) 
     {
-<<<<<<< HEAD
 
     $params=[
         'category'=>$_POST["category"], 
@@ -47,90 +41,83 @@ if (isset($_POST["CreateQuestionButton"]))
         flash("Failed to create question");
     }
 }
-=======
-    $test_ins = $_POST["test_in"];
-    $test_outs = $_POST["test_out"];
-
-    $params=['category'=>$_POST["category"], 
-    'difficulty'=>$_POST["difficulty"], 
-    'fname'=>$_POST["fname"], 
-    'description'=>$_POST["description"], 
-    'test_cases'=>[["test_in"=>$test_ins[0], "test_out" => $test_outs[0]], ["test_in"=>$test_ins[1], "test_out" => $test_outs[1]]],
-    'teacher_id'=> get_user_id()];
-    
-     $req = make_request("mid_create_question", $params);
-
-     if($req["status"] == 200){
-        flash("Question successfuly created");
-     } else {
-        flash("Failed to create question");
-     }
-    }
->>>>>>> 627cf4eec17a545c1d3786526bc9912696f8e610
     
 ?>
 
 
-<<<<<<< HEAD
 <section id="add_question_form">
-    <div class="question-form">
-        <h1 class="Header">Create Question </h1>
-        <form method="post">  
-            
-            <label for="category" id="HeaderQuestions"><b>Category&nbsp&nbsp</b></label>
-                <select name="category" id="category">Select
-                    <option value="variables">Variables</option>
-                    <option value="conditionals">Conditionals</option>
-                    <option value="for loops">For Loops</option>
-                    <option value="while loops">While Loops</option>
-                    <option value="lists">Lists</option>
-                </select></br></br>
-                
-            <label for="difficulty" id="HeaderQuestions"><b>Difficulty&nbsp&nbsp</b></label>
-                <select name="difficulty" id="difficulty">Select
-                    <option value="easy">Easy</option>
-                    <option value="medium">Medium</option>
-                    <option value="hard">Hard</option>
-                </select>  </br></br>
-                
-            <label for="fname" id="HeaderQuestions"><b>Function Name&nbsp&nbsp</b></label>
-                <input type="text" name="fname"/></br></br>
-                
-            <label for="description" id="HeaderQuestions"><b>Description&nbsp&nbsp</b></label>
-                <textarea name="description"></textarea></br></br>
 
-            <label for="constraints" id="HeaderQuestions"><b>Constraints&nbsp&nbsp</b></label>
-                <select name="constraints" id="constraints">Select
-                    <option value="">None</option>
-                    <option value="for">For Loop</option>
-                    <option value="while">While Loop</option>
-                    <option value="recursion">Recursion</option>
+        <form method="post" id="question_form">  
+          <h1>Create Question </h1><br>
+          <div class="input-group">
+            <select class="form-input" name="category" id="category">
+                <option value="" disabled selected>Category</option>
+                <option value="variables">Variables</option>
+                <option value="conditionals">Conditionals</option>
+                <option value="for loops">For Loops</option>
+                <option value="while loops">While Loops</option>
+                <option value="lists">Lists</option>
+            </select>
+                  
+            <select class="form-input" name="difficulty" id="difficulty">
+              <option value="" disabled selected>Difficulty</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+          </div>
                 
-                </select></br></br>
-            <label for="test_cases" id="HeaderQuestions"><b>Test Cases&nbsp&nbsp</b>
-                <button id="add_test_case" type="button">Add Test Case</button>
-            </label></br></br>
+          
+          <input type="text" name="fname" class="form-input" placeholder="Function Name" />
+                
+   
+          <textarea name="description" class="form-input" rows="5" placeholder="Description"></textarea>
+
+          <label>
+            <input type="checkbox" onclick="toggle_constraints(this);"/> <b>Constraints</b> 
+          </label>
+        
+          <select name="constraints" class="form-input" id="constraints" disabled>
+              <option value="" disabled selected>None</option>
+              <option value="for">For Loop</option>
+              <option value="while">While Loop</option>
+              <option value="recursion">Recursion</option>
+          
+          </select>
+              
+             
+            
+          <div style="display: flex; justify-content: space-between;">
+            <p><b>Test Cases</b><p>
+            <button id="add_test_case" type="button" class="btn btn-small">Add Test Case</button><br>
+          </div>
+            
+
             <div id="test_cases">
                 
-                <input type="text" placeholder="Arguments" name="test_in[]"/>
-                <input type="text" placeholder="Expected Output" name="test_out[]"/><br/></br>
-                <input type="text" placeholder="Arguments" name="test_in[]"/>
-                <input type="text" placeholder="Expected Output" name="test_out[]"/><br/></br>
+                <div class="input-group">
+                  <input class="form-input" type="text" placeholder="Arguments" name="test_in[]"/>
+                  <input class="form-input" type="text" placeholder="Expected Output" name="test_out[]"/>
+                </div>
+                <div class="input-group">
+                  <input class="form-input" type="text" placeholder="Arguments" name="test_in[]"/>
+                  <input class="form-input" type="text" placeholder="Expected Output" name="test_out[]"/>
+                </div>
             </div>
             <br/>
 
             
-            <input type="submit" value="Create Question" name="CreateQuestionButton"/>
+            <input type="submit" class="btn btn-block" value="Create Question" name="CreateQuestionButton"/>
                     
         </form>
-    </div>
 
-    <div class="question-container">
-      <h1>Question Bank</h1>
-      <div>
-        <input type="text" value="" class="filter" onkeyup="render_table()" id="f_description" placeholder="Keyword"/>
+
+    <div id="question_container">
+      <h1>Question Bank</h1><br>
+      <div class="input-group">
+        <input type="text" value="" class="filter form-input" onkeyup="render_table()" id="f_description" placeholder="Keyword"/>
         
-        <select id="f_category" class="filter" onchange="render_table()">
+        <select id="f_category" class="filter form-input" onchange="render_table()">
           <option value="">All Topics</option>
           <option value="variables">Variables</option>
           <option value="conditionals">Conditionals</option>
@@ -139,7 +126,7 @@ if (isset($_POST["CreateQuestionButton"]))
           <option value="lists">lists</option>
         </select>
 
-        <select id="f_difficulty" class="filter" onchange="render_table()">
+        <select id="f_difficulty" class="filter form-input" onchange="render_table()">
           <option value="">All Difficulties</option>
           <option value="easy">Easy</option>
           <option value="medium">Medium</option>
@@ -148,7 +135,7 @@ if (isset($_POST["CreateQuestionButton"]))
         </select>
         
       </div>
-      <table border="1">
+      <table border="2" class="question-table">
           <thead>
             <tr>
               <th>Description</th>
@@ -156,7 +143,7 @@ if (isset($_POST["CreateQuestionButton"]))
               <th>Difficulty</th>
             </tr>
           </thead>
-          <tbody id="question_table_body"></tbody>
+          <tbody class="question-table-body"></tbody>
       </table>
     </div>
 </section>
@@ -164,20 +151,24 @@ if (isset($_POST["CreateQuestionButton"]))
 <script>
 
   let tc_count = 2;
-
-  const exam_questions = document.getElementById('exam_questions_body');
-  const question_table = document.getElementById('question_table_body');
   const questions = <?=json_encode($questions) ?>
 
+  const question_table_body = document.querySelector('.question-table-body');
   const btn_test_case_add = document.getElementById('add_test_case');
 
   render_table()
 
+  function toggle_constraints(cb){
+    const constraints_select = document.getElementById("constraints")
+    constraints_select.disabled = !cb.checked
+  }
+
   function add_test_case(e){
       if(tc_count < 5){
-        const test_case = `
-            <input type="text" placeholder="Arguments" name="test_in[]"/>
-            <input type="text" placeholder="Expected Output" name="test_out[]"/><br/></br>
+        const test_case = `<div class="input-group">
+                  <input class="form-input" type="text" placeholder="Arguments" name="test_in[]"/>
+                  <input class="form-input" type="text" placeholder="Expected Output" name="test_out[]"/>
+                </div>
         `
         
         document.getElementById('test_cases').innerHTML += test_case
@@ -187,8 +178,6 @@ if (isset($_POST["CreateQuestionButton"]))
       if(tc_count == 5){
         btn_test_case_add.disabled = true;
       }
-      
-
   } 
   
   function render_table(){
@@ -218,7 +207,7 @@ if (isset($_POST["CreateQuestionButton"]))
 
     })
 
-    question_table.innerHTML = output
+    question_table_body.innerHTML = output
   }
 
   btn_test_case_add.addEventListener("click", add_test_case)
@@ -227,45 +216,3 @@ if (isset($_POST["CreateQuestionButton"]))
 
     
 <?php require(__DIR__ . "/../partials/footer.php"); ?>
-=======
-<section>
-
-    <h2 class="Header">Create Question </h2><br>
-   
-    <form method="post">  
-        <label for="category" id="HeaderQuestions"><b>Category&nbsp&nbsp</b></label>
-            <select name="category" id="category">Select
-                <option value="variables">Variables</option>
-                <option value="conditionals">Conditionals</option>
-                <option value="for loops">For Loops</option>
-                <option value="while loops">While Loops</option>
-                <option value="lists">Lists</option>
-            </select></br></br>
-            
-        <label for="difficulty" id="HeaderQuestions"><b>Difficulty&nbsp&nbsp</b></label>
-            <select name="difficulty" id="difficulty">Select
-                <option value="easy">Easy</option>
-                <option value="medium">Medium</option>
-                <option value="hard">Hard</option>
-            </select>  </br></br>
-            
-        <label for="fname" id="HeaderQuestions"><b>Function Name&nbsp&nbsp</b></label>
-            <input type="text" name="fname"/></br></br>
-            
-        <label for="description" id="HeaderQuestions"><b>Description&nbsp&nbsp</b></label>
-            <input type="text" name="description"/></br></br>
-            
-        <label for="test_cases" id="HeaderQuestions"><b>Test Cases&nbsp&nbsp</b></label></br></br>
-            <input type="text" placeholder="Arguments" name="test_in[]"/>
-            <input type="text" placeholder="Expected Output" name="test_out[]"/><br/></br>
-            <input type="text" placeholder="Arguments" name="test_in[]"/>
-            <input type="text" placeholder="Expected Output" name="test_out[]"/><br/></br>
-
-        <br/>
-        <input type="submit" value="Create Question" name="CreateQuestionButton"/>
-                
-    </form>
-</section>
-    
-<?php require(__DIR__ . "/../partials/footer.php"); ?>
->>>>>>> 627cf4eec17a545c1d3786526bc9912696f8e610
