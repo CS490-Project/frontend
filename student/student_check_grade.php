@@ -1,85 +1,92 @@
-
+<?php require(__DIR__ . "/../partials/header.php"); ?>
 <?php 
 
 $student_id=$user["user_id"];
 $exam_id=$_GET["id"];;
 
-$params = ["student_id" => ge_user_id(), "exam_id" => $exam_id];
-$options = array(
-    CURLOPT_URL => 'https://afsaccess4.njit.edu/~jc262/CS490/mid_get_grades.php',
-    CURLOPT_POST => true, 
-    CURLOPT_POSTFIELDS => json_encode($params),
-    CURLOPT_HTTPHEADER => array('Content-Type:application/json'),
-    CURLOPT_RETURNTRANSFER => true
-);
+$params = ["student_id" => get_user_id(), "exam_id" => $exam_id];
 
-$ch = curl_init();  //initialize curl session
-curl_setopt_array($ch, $options); 
+$req = make_request("mid_get_grades", $params);
 
+$answers = [];
+if($req["status"] == 200){
+    $answers = $req["response"];
+} else {
+    flash("Error retrieving exam grades");
+    die(header("Location: index.php"));
+}
 
-//decode json from db.php
-$response = curl_exec($ch);
-$status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-$answers = json_decode($response, true);
 
 function format_tc($tc){
     return implode(explode(' ', $tc), '<br>');
 }
 
-$total_possible=0;
-$total_obtained=0;
+$exam_possible=0;
+$exam_earned=0;
+
+foreach($answers as $ans){
+    $exam_possible+=floatval($ans["total_possible"]);
+    $exam_earned+=floatval($ans["total_earned"]);
+}
     
 ?>
-<html lang="en">
-<div class="topnav">
-        <a href="student_get_ungraded_exams.php">Take Exam</a>
-        <a href="student_get_graded_exams.php">Graded Exams</a>
-        <a href="logout.php">Logout</a>
-</div>   
 
 
-<head>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-</head>
-<body>
-    <form method="post">
-        <?php foreach($answers as $ans): ?>
-                <p><?= $ans["description"] ?></p>
-                <textarea disabled ><?= $ans["answer"] ?></textarea>
-                <br><br>
-                <table>
-                    <tr>
-                        <th>Expected</th>
-                        <th>Run</th>
-                        <th>Pts Possible</th>
-                        <th>Pts Deducted</th>
-                        <th>Pts Total</th>
-                    </tr>
-                    <tbody>
+<section id="exam_grading">
+    <h2 style="text-align: right">Final Score: <?= $exam_earned ?>/<?= $exam_possible ?></h2>
+    <br><br>
+    <?php foreach($answers as $ans): ?>
+        <div class="exam-answers" >
+            <div class="student-answer">
+                <p><b><?= $ans["description"] ?></b></p><br>
+                <textarea class="form-input" rows="15" disabled ><?= $ans["answer"] ?></textarea>
+            </div>
+
+            <div class="grading-table">
+                <table border="1">
+                    <thead>
                         <tr>
-                            <td><?= format_tc($ans["expected"]) ?> </td>
-                            <td><?= format_tc($ans["run"]) ?></td>
-                            <td><?= $ans["pts_possible"] ?></td>
-                            <td><?=$ans["pts_override"] ?></th>
-                            <td><?=$ans["pts_total"] ?></th>
+                            <th>Expected</th>
+                            <th>Actual</th>
+                            <th>Pts Possible</th>
+                            <th>Pts Earned</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       
+                        <?php foreach($ans["test_cases"] as $tc): ?>
+                            <tr>
+                                <td><?= $tc["expected"]; ?> </td>
+                                <td><?= $tc["actual"]; ?></td>
+                                <td><?= $tc["pts_possible"]; ?></td>
+                                <td><?= $tc["pts_override"] ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                        <tr>
+                            <td colspan="2">
+                                <p><b>Instructor Comment: </b></p><br>
+                                <textarea class="form-input">
+                                    <?php if(strlen($ans["comment"]) > 0 ): ?>
+                                        <?= $ans["comment"] ?>
+                                    <?php else: ?>
+                                        No commment from instructor
+                                    <?php endif ?>
+                                </textarea> 
+                            </td>
+                            <td><b><?= $ans["total_possible"] ?><b></td>
+                            <td><b><?= $ans["total_earned"]; ?></b></td>
                         </tr>
                     </tbody>
                 </table>
-                <br>
-                <textarea disabled ><?= $ans["comment"] ?></textarea>
-                <?php
-                    $total_possible+=intval($ans["pts_possible"]);
-                    $total_obtained+=intval($ans["pts_total"]);
-                ?>
-                <br><br>
+            
+            </div>
 
-            <?php endforeach; ?>
-            Total Grade:
-            <?=$total_obtained?>/<?=$total_possible?>
+        </div>
 
-        </form>
+        <?php endforeach; ?>
+
+        
     
-
-</body>
-</html>
+    
+</section>
+ 

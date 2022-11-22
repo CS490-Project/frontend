@@ -25,17 +25,19 @@ if (isset($_POST["login"])) {
 
 <?php require(__DIR__ . "/partials/header.php"); ?>
 
-<div id="LoginPage">
-    <h2 class="Header">Login Page</h2><br>    
+<section id="LoginPage">
 
-    <form method="POST">  
-            <label for="user_id" id="Header2"><b>UCID</b></label>
-            <input type="text" placeholder="Enter UCID" name="user_id" id="Header3" required>
-            <label for="password" id="Header2"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="password" id="Header3" required><br>
-            <br><input type="submit" value="Login" name="login" id="Button"></br>
+    <h2 class="header">Login</h2><br>    
+
+    <form method="POST" class="login-form">  
+         
+            <input type="text" placeholder="Enter UCID" name="user_id" class="form-input" required>
+           
+            <input type="password" placeholder="Enter Password" name="password" class="form-input" required><br>
+
+            <br><input type="submit" value="Login" name="login" class="btn"></br>
     </form>
-</div>
+</section>
 
 
 <?php require(__DIR__ . "/partials/footer.php"); ?>

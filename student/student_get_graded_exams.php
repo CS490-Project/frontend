@@ -16,20 +16,28 @@
 ?>
 
 <section>
-<div class="exam-container">
-      <h1>Graded Exams</h1>
-      <table class="exam-table">
-          <?php foreach($exams as $exam): ?>
-            <tr class="exam" id=<?="exam-".$exam['id']; ?> >
-                <td>  <?= $exam['title']; ?> </td> 
-                <td> 
-                <a href="student_check_grade.php?id=<?=$exam['id'];?>"> Check Grade </a>
-                <td>
-            </tr>
-            
-          <?php endforeach; ?>
-          
-      </table>
+    <div class="exam-container">
+      <h1>Graded Exams</h1><br>
+      
+        <table class="exam-table" style="width: 50%;">
+                <thead>
+                    <tr>
+                        <th>Exam Name</th>
+                        <th>Check Grade</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <?php foreach($exams as $exam): ?>
+                        <tr class="exam" id=<?="exam-".$exam['id']; ?> >
+                            <td> <b><?= $exam['title']; ?><b> </td> 
+                            <td> <a class="btn" href="student_check_grade.php?id=<?=$exam['id'];?>"> Check Grade </a></td>
+                        </tr>
+                        
+                    <?php endforeach; ?>
+            </tbody>
+        </table>
+   
     </div>
 </section>
 

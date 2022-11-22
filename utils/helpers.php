@@ -33,8 +33,6 @@ function make_request($endpoint, $params){
         $defaults[CURLOPT_POSTFIELDS] = json_encode($params);
         $defaults[CURLOPT_HTTPHEADER] = array('Content-Type:application/json');
     } 
-    //Testing autograde for now, later remove
-
     $ch = curl_init();
     curl_setopt_array($ch, $defaults);
 
