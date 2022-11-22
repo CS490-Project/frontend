@@ -60,6 +60,7 @@ function change_question(id, position){
     document.getElementById(current_question).style.display = "none"
     document.getElementById(id).style.display = "block"
     current_question = id
+    document.getElementById("current_position").textContent = position
 }
 
 change_question(current_question, 1)
